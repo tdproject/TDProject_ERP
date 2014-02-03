@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * TDProject_ERP
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+-->
+<entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://www.techdivision.com/schema/entity-1.0.0.xsd"
+	name="Country" type="entity">
+    <description>This class represents an object oriented way to manipulate data in the database.</description>
+    <members>
+        <member name="countryId" sqlname="country_id" type="Integer" initial="0"/>
+    	<member name="name" sqlname="name" type="String" initial="null"/>
+        <member name="indicator" sqlname="indicator" type="String" initial="null"/>
+	</members>
+	<querys>
+		<query>
+			<description><![CDATA[Returns all salutations.]]></description>
+			<method name="findAll">
+				<params/>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT country_id FROM country ORDER BY name ASC]]></sql>
+		</query>
+	</querys>
+	<references>
+		<reference name="country-has-address">
+			<method-name>Address</method-name>
+			<multiplicity>many</multiplicity>
+			<source>
+				<entity-name>Address</entity-name>
+			</source>
+			<target>
+				<member-name>addressId</member-name>
+			</target>
+		</reference>
+	</references>
+	<tables>
+		<table type="InnoDB" default-charset="utf8" collate="utf8_unicode_ci" auto-increment="1" name="country">
+			<keys>
+				<pk name="address_pk" field="country_id"/>
+			</keys>	
+			<fields>
+				<field name="country_id" type="int" length="10" nullable="false" autoincrement="true"/>
+				<field name="name" type="varchar" length="45" nullable="false"/>
+                <field name="indicator" type="varchar" length="3" nullable="false"/>
+			</fields>
+			<initial-data>
+				<rows>
+					<row>
+						<col name="country_id">1</col>
+						<col name="name">Deutschland</col>
+                        <col name="indicator">D</col>
+					</row>
+					<row>
+						<col name="country_id">2</col>
+						<col name="name">Österreich</col>
+                        <col name="indicator">A</col>
+					</row>
+					<row>
+						<col name="country_id">3</col>
+						<col name="name">Schweiz</col>
+                        <col name="indicator">CH</col>
+					</row>
+                    <row>
+                        <col name="country_id">4</col>
+                        <col name="name">Indien</col>
+                        <col name="indicator">IN</col>
+                    </row>
+				</rows>
+			</initial-data>
+		</table>
+	</tables>
+</entity>

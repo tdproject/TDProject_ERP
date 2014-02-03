@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * TDProject_ERP
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+-->
+<entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://www.techdivision.com/schema/entity-1.0.0.xsd"
+	name="CompanyNote" type="entity">
+    <description>This class represents an object oriented way to manipulate data in the database.</description>
+    <members>
+        <member name="companyNoteId" sqlname="company_note_id" type="Integer" initial="0"/>
+        <member name="companyIdFk" sqlname="company_id_fk" type="Integer" initial="0"/>
+        <member name="noteIdFk" sqlname="note_id_fk" type="Integer" initial="0"/>
+        <member name="reason" sqlname="reason" type="String" initial="null"/>
+	</members>
+	<querys>
+		<query>
+			<description><![CDATA[Returns all company-note relations.]]></description>
+			<method name="findAll">
+				<params/>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT company_note_id FROM company_note]]></sql>
+		</query>
+		<query>
+			<description><![CDATA[Returns the company-note relations with the passed company ID.]]></description>
+			<method name="findAllByCompanyIdFk">
+				<params>
+					<param name="companyIdFk" type="Integer"/>
+				</params>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT company_note_id FROM company_note WHERE company_id_fk = ?]]></sql>
+		</query>
+		<query>
+			<description><![CDATA[Returns the company-note relations with the passed note ID.]]></description>
+			<method name="findAllByNoteIdFk">
+				<params>
+					<param name="noteIdFk" type="Integer"/>
+				</params>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT company_note_id FROM company_note WHERE note_id_fk = ?]]></sql>
+		</query>
+		<query>
+			<description><![CDATA[Returns the company-note relations with the passed company and note ID.]]></description>
+			<method name="findAllByCompanyIdFkAndNoteIdFk">
+				<params>
+					<param name="companyIdFk" type="Integer"/>
+					<param name="noteIdFk" type="Integer"/>
+				</params>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT company_note_id FROM company_note WHERE company_id_fk = ? AND note_id_fk = ?]]></sql>
+		</query>
+	</querys>
+	<references>
+		<reference name="company-note-has-company">
+			<method-name>Company</method-name>
+			<multiplicity>one</multiplicity>
+			<source>
+				<entity-name>Company</entity-name>
+			</source>
+			<target>
+				<member-name>companyIdFk</member-name>
+			</target>
+		</reference>
+		<reference name="company-note-has-note">
+			<method-name>Note</method-name>
+			<multiplicity>one</multiplicity>
+			<source>
+				<entity-name>Note</entity-name>
+			</source>
+			<target>
+				<member-name>noteIdFk</member-name>
+			</target>
+		</reference>
+	</references>
+	<tables>
+		<table type="InnoDB" default-charset="utf8" collate="utf8_unicode_ci" auto-increment="1" name="company_note">
+			<keys>
+				<pk name="company_note_pk" field="company_note_id"/>
+				<index name="company_note_idx_01" field="company_id_fk"/>
+				<index name="company_note_idx_02" field="note_id_fk"/>
+				<fk name="company_note_fk_01" field="company_id_fk" target-table="company" target-field="company_id" on-delete="cascade"/>
+				<fk name="company_note_fk_02" field="note_id_fk" target-table="note" target-field="note_id" on-delete="cascade"/>
+			</keys>	
+			<fields>
+				<field name="company_note_id" type="int" length="10" nullable="false" autoincrement="true"/>
+				<field name="company_id_fk" type="int" length="10" nullable="false"/>
+				<field name="note_id_fk" type="int" length="10" nullable="false"/>
+				<field name="reason" type="varchar" length="255" nullable="true"/>
+			</fields>
+		</table>
+	</tables>
+</entity>

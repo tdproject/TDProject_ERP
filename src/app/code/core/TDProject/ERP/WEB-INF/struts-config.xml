@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * TDProject_ERP
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+-->
+<struts-config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.techdivision.com/schema/struts-config-2.1.1.xsd">
+    <message-resources key="ERP" name="Application" path="TDProject/ERP/WEB-INF"/>
+    <form-beans>
+        <form-bean include="TDProject/ERP/Block/Person/View.php" name="personForm" type="TDProject_ERP_Block_Person_View"/>
+        <form-bean include="TDProject/ERP/Block/Company/View.php" name="companyForm" type="TDProject_ERP_Block_Company_View"/>
+        <form-bean include="TDProject/ERP/Block/Address/View.php" name="addressForm" type="TDProject_ERP_Block_Address_View"/>
+        <form-bean include="TDProject/ERP/Block/Note/View.php" name="noteForm" type="TDProject_ERP_Block_Note_View"/>
+    </form-beans>    
+    <global-forwards/>
+    <action-mappings>
+        <action path="/person" name="personForm" type="TDProject_ERP_Controller_Person" scope="request" input="" parameter="method" validate="false" include="TDProject/ERP/Controller/Person.php" unknown="false">
+            <forward name="PersonOverview" path="TDProject_ERP_Block_Person_Overview" redirect="false"/>
+            <forward name="PersonView" path="TDProject_ERP_Block_Person_View" redirect="false"/>
+            <forward name="AddressView" path="TDProject_ERP_Block_Address_View" redirect="false"/>
+        </action>
+        <action path="/person/ajax" name="" type="TDProject_ERP_Controller_Person_Ajax" scope="request" input="" parameter="method" validate="false" include="TDProject/ERP/Controller/Person/Ajax.php" unknown="false"/>
+        <action path="/company" name="companyForm" type="TDProject_ERP_Controller_Company" scope="request" input="" parameter="method" validate="false" include="TDProject/ERP/Controller/Company.php" unknown="false">
+            <forward name="CompanyOverview" path="TDProject_ERP_Block_Company_Overview" redirect="false"/>
+            <forward name="CompanyView" path="TDProject_ERP_Block_Company_View" redirect="false"/>
+            <forward name="AddressView" path="TDProject_ERP_Block_Address_View" redirect="false"/>
+            <forward name="MessagesView" path="TDProject_Core_Block_Action_Messages" redirect="false"/>
+        </action>
+        <action path="/company/ajax" name="" type="TDProject_ERP_Controller_Company_Ajax" scope="request" input="" parameter="method" validate="false" include="TDProject/ERP/Controller/Company/Ajax.php" unknown="false"/>
+        <action path="/address" name="addressForm" type="TDProject_ERP_Controller_Address" scope="request" input="" parameter="method" validate="false" include="TDProject/ERP/Controller/Address.php" unknown="false">
+            <forward name="AddressView" path="TDProject_ERP_Block_Address_View" redirect="false"/>
+        </action>
+        <action path="/note" name="noteForm" type="TDProject_ERP_Controller_Note" scope="request" input="" parameter="method" validate="false" include="TDProject/ERP/Controller/Note.php" unknown="false">
+            <forward name="NoteOverview" path="TDProject_ERP_Block_Note_Overview" redirect="false"/>
+            <forward name="NoteView" path="TDProject_ERP_Block_Note_View" redirect="false"/>
+        </action>
+        <action path="/note/ajax" name="" type="TDProject_ERP_Controller_Note_Ajax" scope="request" input="" parameter="method" validate="false" include="TDProject/ERP/Controller/Note/Ajax.php" unknown="false"/>
+        <action path="/note/json" name="" type="TDProject_ERP_Controller_Note_Json" scope="request" input="" parameter="method" validate="false" include="TDProject/ERP/Controller/Note/Json.php" unknown="false">
+            <forward name="Json" path="TDProject_ERP_Block_Note_Json" redirect="false"/>
+        </action>
+    </action-mappings>
+</struts-config>

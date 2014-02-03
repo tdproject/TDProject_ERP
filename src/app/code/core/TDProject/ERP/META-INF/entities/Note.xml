@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * TDProject_ERP
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+-->
+<entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://www.techdivision.com/schema/entity-1.0.0.xsd"
+	name="Note" type="entity">
+    <description>This class represents an object oriented way to manipulate data in the database.</description>
+    <members>
+        <member name="noteId" sqlname="note_id" type="Integer" initial="0"/>
+        <member name="noteTypeIdFk" sqlname="note_type_id_fk" type="Integer" initial="0"/>
+        <member name="createUserIdFk" sqlname="create_user_id_fk" type="Integer" initial="0"/>
+        <member name="remindUserIdFk" sqlname="remind_user_id_fk" type="Integer" initial="0"/>
+    	<member name="createdAt" sqlname="created_at" type="Integer" initial="0"/>
+    	<member name="remindAt" sqlname="remind_at" type="Integer" initial="0"/>
+    	<member name="subject" sqlname="subject" type="String" initial="null"/>
+        <member name="note" sqlname="note" type="String" initial="null"/>
+        <member name="filename" sqlname="filename" type="String" initial="null"/>
+        <member name="deleted" sqlname="deleted" type="Integer" initial="0"/>
+	</members>
+	<querys>
+		<query>
+			<description><![CDATA[Returns all notes.]]></description>
+			<method name="findAll">
+				<params/>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT note_id FROM note WHERE deleted = 0 ORDER BY remind_at ASC]]></sql>
+		</query>
+		<query>
+			<description><![CDATA[Returns the notes for the passed note type ID.]]></description>
+			<method name="findAllByNoteTypeIdFk">
+				<params>
+					<param name="noteTypeIdFk" type="Integer"/>
+				</params>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT note_id FROM note WHERE note_type_id_fk = ? AND deleted = 0 ORDER BY remind_at DESC]]></sql>
+		</query>
+		<query>
+			<description><![CDATA[Returns the notes for the passed user ID.]]></description>
+			<method name="findAllByCreateUserIdFk">
+				<params>
+					<param name="createUserIdFk" type="Integer"/>
+				</params>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT note_id FROM note WHERE create_user_id_fk = ? AND deleted = 0 ORDER BY remind_at DESC]]></sql>
+		</query>
+		<query>
+			<description><![CDATA[Returns the notes for the passed user ID.]]></description>
+			<method name="findAllByRemindUserIdFk">
+				<params>
+					<param name="remindUserIdFk" type="Integer"/>
+				</params>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT note_id FROM note WHERE remind_user_id_fk = ? AND deleted = 0 ORDER BY remind_at DESC]]></sql>
+		</query>
+		<query>
+			<description><![CDATA[Returns the notes for the passed person ID.]]></description>
+			<method name="findAllByPersonIdFk">
+				<params>
+					<param name="personIdFk" type="Integer"/>
+				</params>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT note_id FROM note t1, person_note t2 WHERE t2.person_id_fk = ? AND t1.note_id = t2.note_id_fk AND t1.deleted = 0 ORDER BY t1.remind_at DESC]]></sql>
+		</query>
+		<query>
+			<description><![CDATA[Returns the notes for the passed company ID.]]></description>
+			<method name="findAllByCompanyIdFk">
+				<params>
+					<param name="companyIdFk" type="Integer"/>
+				</params>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT note_id FROM note t1, company_note t2 WHERE t2.company_id_fk = ? AND t1.note_id = t2.note_id_fk AND t1.deleted = 0 ORDER BY t1.remind_at DESC]]></sql>
+		</query>
+	</querys>
+	<references>
+		<reference name="note-has-note-type">
+			<method-name>NoteType</method-name>
+			<multiplicity>one</multiplicity>
+			<source>
+				<entity-name>NoteType</entity-name>
+			</source>
+			<target>
+				<member-name>noteTypeIdFk</member-name>
+			</target>
+		</reference>
+		<reference name="note-has-person-notes">
+			<method-name>PersonNotes</method-name>
+			<multiplicity>many</multiplicity>
+			<source>
+				<entity-name>PersonNote</entity-name>
+			</source>
+			<target>
+				<member-name>noteId</member-name>
+			</target>
+		</reference>
+		<reference name="note-has-company-notes">
+			<method-name>CompanyNotes</method-name>
+			<multiplicity>many</multiplicity>
+			<source>
+				<entity-name>CompanyNote</entity-name>
+			</source>
+			<target>
+				<member-name>noteId</member-name>
+			</target>
+		</reference>
+	</references>
+	<tables>
+		<table type="InnoDB" default-charset="utf8" collate="utf8_unicode_ci" auto-increment="1" name="note">
+			<keys>
+				<pk name="note_pk" field="note_id"/>
+				<index name="note_idx_01" field="note_type_id_fk"/>
+				<index name="note_idx_02" field="create_user_id_fk"/>
+				<index name="note_idx_03" field="remind_user_id_fk"/>
+				<fk name="note_fk_01" field="note_type_id_fk" target-table="note_type" target-field="note_type_id" on-delete="cascade"/>
+				<fk name="note_fk_02" field="create_user_id_fk" target-table="user" target-field="user_id" on-delete="cascade"/>
+				<fk name="note_fk_03" field="remind_user_id_fk" target-table="user" target-field="user_id" on-delete="cascade"/>
+			</keys>	
+			<fields>
+				<field name="note_id" type="int" length="10" nullable="false" autoincrement="true"/>
+				<field name="note_type_id_fk" type="int" length="10" nullable="false"/>
+				<field name="create_user_id_fk" type="int" length="10" nullable="false"/>
+				<field name="remind_user_id_fk" type="int" length="10" nullable="false"/>
+				<field name="created_at" type="int" length="10" nullable="false"/>
+				<field name="remind_at" type="int" length="10" nullable="false"/>
+				<field name="subject" type="varchar" length="255" nullable="false"/>
+				<field name="note" type="text" length="16" nullable="false"/>
+				<field name="filename" type="varchar" length="255" nullable="true"/>
+				<field name="deleted" type="tinyint" length="1" nullable="false" default="0"/>
+			</fields>
+		</table>
+	</tables>
+</entity>

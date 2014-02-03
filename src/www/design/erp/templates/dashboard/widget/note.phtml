@@ -1,0 +1,57 @@
+<!--
+/**
+ * TDProject_ERP
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+-->
+<script language="JavaScript" src="www/design/core/templates/global/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function() {
+	$('#notes').dataTable( {
+		"bJQueryUI": true,
+		"sPaginationType": "full_numbers",
+		"bProcessing": true,
+		"sAjaxSource": "<?php echo $this->getDataSource() ?>",
+		"aoColumns": [
+			{ "mDataProp": 0 },
+			{ "mDataProp": 1 },
+			{ "mDataProp": 2 },
+			{ "mDataProp": 3 },
+			{ "mDataProp": 4 }
+		]
+	} );
+} );
+</script>
+<div id="dynamic">
+	<fieldset class="ui-widget ui-widget-content ui-corner-all">
+    	<legend><?php echo $this->translate('dashboard.widget.note.legend.summary') ?></legend>
+		<div id="dynamic">
+        	<table cellpadding="0" cellspacing="0" border="0" class="display" id="notes">
+        		<thead>
+                	<tr>
+                		<th><?php echo $this->translate('dashboard.widget.note.label.id') ?></th>
+                		<th><?php echo $this->translate('dashboard.widget.note.label.subject') ?></th>
+                		<th><?php echo $this->translate('dashboard.widget.note.label.type') ?></th>
+                		<th><?php echo $this->translate('dashboard.widget.note.label.from') ?></th>
+                		<th><?php echo $this->translate('dashboard.widget.note.label.due') ?></th>
+                	</tr>
+        		</thead>
+        		<tbody/>
+        		<tfoot>
+                	<tr>
+                		<th><?php echo $this->translate('dashboard.widget.note.label.id') ?></th>
+                		<th><?php echo $this->translate('dashboard.widget.note.label.subject') ?></th>
+                		<th><?php echo $this->translate('dashboard.widget.note.label.type') ?></th>
+                		<th><?php echo $this->translate('dashboard.widget.note.label.from') ?></th>
+                		<th><?php echo $this->translate('dashboard.widget.note.label.due') ?></th>
+                	</tr>
+        		</tfoot>
+        	</table>
+    	</div>
+	</fieldset>
+</div>

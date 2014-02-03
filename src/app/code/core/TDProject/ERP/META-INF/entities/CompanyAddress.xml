@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * TDProject_ERP
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+-->
+<entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://www.techdivision.com/schema/entity-1.0.0.xsd"
+	name="CompanyAddress" type="entity">
+    <description>This class represents an object oriented way to manipulate data in the database.</description>
+    <members>
+        <member name="companyAddressId" sqlname="company_address_id" type="Integer" initial="0"/>
+        <member name="companyIdFk" sqlname="company_id_fk" type="Integer" initial="0"/>
+        <member name="addressIdFk" sqlname="address_id_fk" type="Integer" initial="0"/>
+        <member name="addressTypeIdFk" sqlname="address_type_id_fk" type="Integer" initial="0"/>
+	</members>
+	<querys>
+		<query>
+			<description><![CDATA[Returns all company-address relations.]]></description>
+			<method name="findAll">
+				<params/>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT company_address_id FROM company_address]]></sql>
+		</query>
+		<query>
+			<description><![CDATA[Returns the company-address relations with the passed company ID.]]></description>
+			<method name="findAllByCompanyIdFk">
+				<params>
+					<param name="companyIdFk" type="Integer"/>
+				</params>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT company_address_id FROM company_address WHERE company_id_fk = ?]]></sql>
+		</query>
+		<query>
+			<description><![CDATA[Returns the company-address relations with the passed address ID.]]></description>
+			<method name="findAllByAddressIdFk">
+				<params>
+					<param name="addressIdFk" type="Integer"/>
+				</params>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT company_address_id FROM company_address WHERE address_id_fk = ?]]></sql>
+		</query>
+		<query>
+			<description><![CDATA[Returns the company-address relations with the passed address type ID.]]></description>
+			<method name="findAllByAddressTypeIdFk">
+				<params>
+					<param name="addressTypeIdFk" type="Integer"/>
+				</params>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT company_address_id FROM company_address WHERE address_type_id_fk = ?]]></sql>
+		</query>
+		<query>
+			<description><![CDATA[Returns the company-address relation with the passed address ID and company ID.]]></description>
+			<method name="findAllByCompanyIdFkAndAddressIdFk">
+				<params>
+					<param name="companyIdFk" type="Integer"/>
+					<param name="addressIdFk" type="Integer"/>
+				</params>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT company_address_id FROM company_address WHERE company_id_fk = ? AND address_id_fk = ?]]></sql>
+		</query>
+	</querys>
+	<references>
+		<reference name="company-address-has-company">
+			<method-name>Company</method-name>
+			<multiplicity>one</multiplicity>
+			<source>
+				<entity-name>Company</entity-name>
+			</source>
+			<target>
+				<member-name>companyIdFk</member-name>
+			</target>
+		</reference>
+		<reference name="company-address-has-address">
+			<method-name>Address</method-name>
+			<multiplicity>one</multiplicity>
+			<source>
+				<entity-name>Address</entity-name>
+			</source>
+			<target>
+				<member-name>addressIdFk</member-name>
+			</target>
+		</reference>
+		<reference name="company-address-has-address-type">
+			<method-name>AddressType</method-name>
+			<multiplicity>one</multiplicity>
+			<source>
+				<entity-name>AddressType</entity-name>
+			</source>
+			<target>
+				<member-name>addressTypeIdFk</member-name>
+			</target>
+		</reference>
+	</references>
+	<tables>
+		<table type="InnoDB" default-charset="utf8" collate="utf8_unicode_ci" auto-increment="1" name="company_address">
+			<keys>
+				<pk name="company_address_pk" field="company_address_id"/>
+				<index name="company_address_idx_01" field="company_id_fk"/>
+				<index name="company_address_idx_02" field="address_id_fk"/>
+				<index name="company_address_idx_03" field="address_type_id_fk"/>
+				<fk name="company_address_fk_01" field="company_id_fk" target-table="company" target-field="company_id" on-delete="cascade"/>
+				<fk name="company_address_fk_02" field="address_id_fk" target-table="address" target-field="address_id" on-delete="cascade"/>
+				<fk name="company_address_fk_03" field="address_type_id_fk" target-table="address_type" target-field="address_type_id" on-delete="cascade"/>
+			</keys>	
+			<fields>
+				<field name="company_address_id" type="int" length="10" nullable="false" autoincrement="true"/>
+				<field name="company_id_fk" type="int" length="10" nullable="false"/>
+				<field name="address_id_fk" type="int" length="10" nullable="false"/>
+				<field name="address_type_id_fk" type="int" length="10" nullable="false"/>
+			</fields>
+		</table>
+	</tables>
+</entity>

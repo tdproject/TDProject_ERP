@@ -1,0 +1,60 @@
+<?php
+ 
+/**
+ * TDProject_Project
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+
+?>
+<script type="text/javascript">
+<!--
+
+/**
+ * Loads the address with the passed ID and replaces the HTML of the div 
+ * containers with the ID #address with the form to edit the requested
+ * address.
+ *
+ * @param int addressId The ID of the address to edit
+ * @return boolean
+ */
+function loadAddress(addressId) {
+
+	$.ajax({
+	    type: "GET",
+	    url: "?path=/address&method=edit&addressId=" + addressId,
+	    success: function(data) {
+	        $('#<?php echo $this->getBlockName() ?>').html(data);
+	    }
+    });
+    
+	return false;
+}
+
+/**
+ * Invokes the method to initialize the HTML for creating a new address
+ * and replaces the HTML of the div container with the ID #address with 
+ * the HTML code returned.
+ *
+ * @return boolean
+ */
+function createAddress() {
+
+	$.ajax({
+	    type: "GET",
+	    url: "?path=/address&method=create",
+	    success: function(data) {
+	        $('#<?php echo $this->getBlockName() ?>').html(data);
+	    }
+    });
+    
+	return false;
+}
+
+//-->
+</script>
+<div id="<?php echo $this->getBlockName() ?>"></div>

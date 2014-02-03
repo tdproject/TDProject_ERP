@@ -1,0 +1,82 @@
+<!-- 
+/**
+ * TDProject_ERP
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+-->
+<?php
+
+$request = $this->getRequest();
+
+$dto = $this->getRequest()->getAttribute(
+    TDProject_Core_Controller_Util_WebRequestKeys::VIEW_DATA
+);
+
+?>
+
+<script language="JavaScript" src="www/design/core/templates/global/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function() {
+	$('#companyGrid').dataTable( {
+		"bJQueryUI": true,
+		"sPaginationType": "full_numbers"
+	} );
+} );
+</script>
+
+<h2>Unternehmen</h2>
+<form method="post" name="companyNoteForm" class="yform" id="companyNoteForm">
+	<input type="hidden" name="path" value="<?php echo $request->getParameter(TechDivision_Controller_Action_Controller::ACTION_PATH) ?>"/>
+	<input type="hidden" name="method" value="saveCompanyNotes"/>
+	<input type="hidden" name="noteId" value="<?php echo $dto->getNoteId() ?>"/>
+	<fieldset class="ui-widget ui-widget-content ui-corner-all">
+    	<legend>Unternehmen zuordnen</legend>
+    	<div id="dynamic">
+    		<table cellpadding="0" cellspacing="0" border="0" class="display" id="companyGrid">
+    			<thead>
+        			<tr>
+                        <th></th>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Telefon</th>
+                        <th>Grund</th>
+                        <th></th>       
+                    </tr>
+                </thead>
+                <tbody><?php foreach ($dto->getCompanies() as $company) { ?>
+                    <tr height="20">
+                        <td><input value="<?php echo $company->getCompanyId() ?>" name="companies[]" type="checkbox"<?php if ($this->isCompany($company)) { ?> checked='checked'<?php } ?>/></td>
+                        <td><?php echo $company->getCompanyId() ?></td>
+                        <td><?php echo $company->getName() ?></td>
+                        <td><?php echo $company->getPhone() ?></td>
+                        <td>
+                            <input name="reasons[<?php echo $company->getCompanyId() ?>]" id="reasons" type="text" value="<?php echo $this->getCompanyReason($company) ?>"/>
+                        </td>
+                        <td><a href="<?php echo $this->getCompanyEditUrl($company) ?>">Bearbeiten</a></td>
+                    </tr><?php } ?>
+                </tbody> 
+    			<tfoot>
+        			<tr>
+                        <th></th>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Telefon</th>
+                        <th>Grund</th>
+                        <th></th>       
+                    </tr>
+                </tfoot>                  
+            </table>
+        </div>
+    </fieldset>
+    <fieldset class="ui-widget ui-widget-content ui-corner-all">
+    	<legend>Aktionen</legend>
+        <div class="type-button">
+            <input type="submit" id="submit" value="Speichern"/>
+        </div> 
+    </fieldset>   
+</form>

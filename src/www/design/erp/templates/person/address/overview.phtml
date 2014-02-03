@@ -1,0 +1,85 @@
+<!-- 
+/**
+ * TDProject_ERP
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+-->
+<?php
+
+$dto = $this->getRequest()->getAttribute(
+    TDProject_Core_Controller_Util_WebRequestKeys::VIEW_DATA
+);
+
+?>
+
+<script language="JavaScript" src="www/design/core/templates/global/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function() {
+	$('#addressGrid').dataTable( {
+		"bJQueryUI": true,
+		"sPaginationType": "full_numbers"
+	} );
+} );
+</script>
+
+<h2>Adressen</h2>       
+<form method="post" name="addressForm" class="yform" id="addressForm">
+	<input type="hidden" name="path" value="/person"/>
+	<input type="hidden" name="method" value="savePersonAddress"/>
+	<input type="hidden" name="personId" value="<?php echo $dto->getPersonId() ?>"/>
+	<fieldset class="ui-widget ui-widget-content ui-corner-all">
+    	<legend>Adressen zuordnen</legend>
+    	<div id="dynamic">
+            <table cellpadding="0" cellspacing="0" border="0" class="display" id="addressGrid">
+            	<thead>
+        			<tr>
+                        <th width="5%"></th>
+                        <th width="10%">Id</th>
+                        <th width="55%">Adresse</th>
+                        <th width="15%">Typ</th>
+                        <th width="15%">Aktion</th>       
+                    </tr>
+                </thead>
+                <tbody><?php $addressTypes = $dto->getAddressTypes(); foreach ($dto->getAddress() as $address) { ?>
+                    <tr><?php $isAddress = false; $isAddress = $this->isAddress($address); ?>
+                        <td><input value="<?php echo $address->getAddressId() ?>" name="address[]" type="checkbox"<?php if ($isAddress) { ?> checked='checked'<?php } ?>/></td>
+                        <td><?php echo $address->getAddressId() ?></td>
+                        <td><?php echo $this->getAddress($address) ?></td></td>
+                        <td>
+                        	<select name="addressTypes[<?php echo $address->getAddressId() ?>]">
+                    			<options><?php for($i = 0; $i < $addressTypes->size(); $i++) { ?>
+                    				<option value="<?php echo $addressTypes->get($i)->getAddressTypeId(); ?>"<?php if ($isAddress && $this->isAddressType($address, $addressTypes->get($i))) { ?> selected='selected'<?php } ?>><?php echo $addressTypes->get($i)->getName() ?></option><?php } ?>
+                    			</options>
+                			</select>
+                		</td>
+                        <td>
+                        	<a href="<?php echo $this->getAddressEditUrl($address) ?>">Bearbeiten</a>
+                        </td>
+                    </tr><?php } ?>
+                </tbody>
+                <tfoot>
+        			<tr>
+                        <th></th>
+                        <th>Id</th>
+                        <th>Adresse</th>
+                        <th>Typ</th>
+                        <th>Aktion</th>       
+                    </tr>
+                </tfoot>                   
+            </table>
+        </div>        
+		<div class="spacer"></div>
+    </fieldset>
+    <fieldset class="ui-widget ui-widget-content ui-corner-all">
+    	<legend>Aktionen</legend>
+        <div class="type-button">
+            <input type="submit" id="submit" value="Speichern"/>
+            <input type="button" class="button" onclick="window.location='<?php echo $this->getAddressSaveUrl() ?>';" value="Neu">
+        </div> 
+    </fieldset>
+</form>

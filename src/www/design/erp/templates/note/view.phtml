@@ -1,0 +1,112 @@
+<!-- 
+/**
+ * TDProject_ERP
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+-->
+<?php
+
+//load the Request
+$request = $this->getRequest();
+
+// load the ActionForm, the note types and the users
+$actionForm = $this->getActionForm();
+$noteTypes = $actionForm->getNoteTypes();
+$users = $actionForm->getUsers();
+
+// load the errors
+if(($errors = $request->getAttribute(TechDivision_Controller_Action_Errors::ACTION_ERRORS)) != null) {
+    $foundErrors = $errors->size();
+} else {
+    $foundErrors = 0;
+}
+
+// load the messages
+if(($messages = $request->getAttribute(TechDivision_Controller_Action_Messages::ACTION_MESSAGES)) != null) {
+    $foundMessages = $messages->size();
+} else {
+    $foundMessages = 0;
+}
+
+?>
+<h2>Wiedervorlage bearbeiten</h2>
+<form name="noteForm" method="post" class="yform">
+	<input type="hidden" name="path" value="<?php echo $request->getParameter(TechDivision_Controller_Action_Controller::ACTION_PATH) ?>" />
+	<input type="hidden" name="method" value="save" /> 
+	<input type="hidden" name="noteId" value="<?php echo $actionForm->getNoteId(); ?>" />
+    <fieldset class="ui-widget ui-widget-content ui-corner-all">
+    	<legend>Wiedervorlagedetails</legend><?php if ($foundErrors > 0) { ?>
+    	<div>
+    		<ul><?php foreach($errors as $error) { ?>
+    			<li><?php echo $error->getMessage(); ?></li><?php } ?>
+    		</ul>
+    	</div><?php } ?> <?php if($foundMessages > 0) { ?>
+    	<div>
+			<ul><?php foreach($messages as $message) { ?>
+    			<li><?php echo $message->getMessage(); ?></li><?php } ?>
+    		</ul>
+    	</div><?php } ?>
+        <div class="type-text">
+        	<label for="subject">Betreff:</label>
+        	<input type="text" name="subject" id="subject" value="<?php echo $actionForm->getSubject() ?>" />
+        </div>
+        <div class="type-text">
+        	<label for="remindAt">Erinnern am:</label>
+        	<input type="text" name="remindAt" id="remindAt" value="<?php echo $actionForm->getRemindAt() ?>" />
+        </div>
+        <div class="type-text">
+        	<label for="hours">Stunden:</label>	
+	        <div><?php echo $actionForm->getHour() ?></div>
+        </div>
+         <div class="type-text">
+        	<label for="minutes">Minuten:</label>	
+	         <div><?php echo $actionForm->getMinute() ?></div>
+        </div>
+        <div class="type-text">
+        	<label for="note">Text:</label>
+        	<textarea name="note" id="note" rows="" cols=""><?php echo $actionForm->getNote() ?></textarea>
+        </div>
+        <div class="type-text">
+        	<label for="noteTypeIdFk">Typ: *</label>
+        	<select name="noteTypeIdFk" id="noteTypeIdFk">
+        		<options><?php for ($i = 0; $i < $noteTypes->size(); $i++) { ?>
+        			<option value="<?php echo $noteTypes->get($i)->getNoteTypeId(); ?>" <?php if ($actionForm->isNoteType($noteTypes->get($i))) { ?>selected="selected" <?php } ?>><?php echo $noteTypes->get($i)->getName() ?></option><?php } ?>
+        		</options>
+        	</select>
+        </div>
+        <div class="type-text">
+        	<label for="remindUserIdFk">Zuweisen an: *</label>
+        	<select name="remindUserIdFk" id="remindUserIdFk">
+        		<options><?php for ($i = 0; $i < $users->size(); $i++) { ?>
+        			<option value="<?php echo $users->get($i)->getUserId(); ?>" <?php if ($actionForm->isRemindUser($users->get($i))) { ?>selected="selected" <?php } ?>><?php echo $users->get($i)->getUsername() ?></option><?php } ?>
+        		</options>
+        	</select>
+        </div>
+    </fieldset>
+    <fieldset class="ui-widget ui-widget-content ui-corner-all">
+    	<legend>Aktionen</legend>
+    	<div class="type-button">
+    		<input type="button" class="button" onclick="window.location='?path=<?php echo $request->getParameter(TechDivision_Controller_Action_Controller::ACTION_PATH) ?>';" value="Zurück" /> 
+    		<input type="submit" id="submit" value="Speichern" />
+    		<input type="button" class="button" onclick="window.location='?path=<?php echo $request->getParameter(TechDivision_Controller_Action_Controller::ACTION_PATH) ?>&method=delete&noteId=<?php echo $actionForm->getNoteId(); ?>';" value="Löschen">
+    	</div>
+    </fieldset>
+</form>
+<?php if (!$actionForm->getNoteId()->equals(new TechDivision_Lang_Integer(0))) { ?><div>
+    <?php $this->_getChildHtml('companies'); ?>
+</div><?php } ?>
+<?php if (!$actionForm->getNoteId()->equals(new TechDivision_Lang_Integer(0))) { ?><div>
+    <?php $this->_getChildHtml('persons'); ?>
+</div><?php } ?>
+
+  	
+<script type="text/javascript">
+	$(function() {
+		$("#remindAt").datepicker();
+	});
+</script>

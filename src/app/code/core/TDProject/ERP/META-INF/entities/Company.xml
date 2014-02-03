@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * TDProject_ERP
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+-->
+<entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://www.techdivision.com/schema/entity-1.0.0.xsd"
+	name="Company" type="entity">
+    <description>This class represents an object oriented way to manipulate data in the database.</description>
+    <members>
+        <member name="companyId" sqlname="company_id" type="Integer" initial="0"/>
+        <member name="companyIdFk" sqlname="company_id_fk" type="Integer" initial="null"/>
+    	<member name="name" sqlname="name" type="String" initial="null"/>
+    	<member name="additionalName" sqlname="additional_name" type="String" initial="null"/>
+    	<member name="email" sqlname="email" type="String" initial="null"/>
+        <member name="phone" sqlname="phone" type="String" initial="null"/>
+        <member name="telefax" sqlname="telefax" type="String" initial="null"/>
+        <member name="website" sqlname="website" type="String" initial="null"/>
+        <member name="deleted" sqlname="deleted" type="Integer" initial="0"/>
+        <member name="customerNumber" sqlname="customer_number" type="String" initial="null"/>
+	</members>
+	<querys>
+		<query>
+			<description><![CDATA[Returns all companies.]]></description>
+			<method name="findAll">
+				<params/>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT company_id FROM company WHERE deleted = 0 ORDER BY name ASC]]></sql>
+		</query>
+		<query>
+			<description><![CDATA[Returns the companies with the passed company ID.]]></description>
+			<method name="findAllByCompanyIdFk">
+				<params>
+					<param name="companyIdFk" type="Integer"/>
+				</params>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT company_id FROM company WHERE company_id_fk = ? WHERE deleted = 0 ORDER BY name ASC]]></sql>
+		</query>
+	</querys>
+	<references>
+		<reference name="company-has-company">
+			<method-name>Company</method-name>
+			<multiplicity>one</multiplicity>
+			<source>
+				<entity-name>Company</entity-name>
+			</source>
+			<target>
+				<member-name>companyIdFk</member-name>
+			</target>
+		</reference>
+		<reference name="company-has-employees">
+			<method-name>Employees</method-name>
+			<multiplicity>many</multiplicity>
+			<source>
+				<entity-name>Person</entity-name>
+			</source>
+			<target>
+				<member-name>companyId</member-name>
+			</target>
+		</reference>
+		<reference name="company-has-notes">
+			<method-name>Notes</method-name>
+			<multiplicity>many</multiplicity>
+			<source>
+				<entity-name>Note</entity-name>
+			</source>
+			<target>
+				<member-name>companyId</member-name>
+			</target>
+		</reference>
+		<reference name="company-has-company-addresses">
+			<method-name>CompanyAddresses</method-name>
+			<multiplicity>many</multiplicity>
+			<source>
+				<entity-name>CompanyAddress</entity-name>
+			</source>
+			<target>
+				<member-name>companyId</member-name>
+			</target>
+		</reference>
+		<reference name="company-has-company-note">
+			<method-name>CompanyNotes</method-name>
+			<multiplicity>many</multiplicity>
+			<source>
+				<entity-name>CompanyNote</entity-name>
+			</source>
+			<target>
+				<member-name>companyId</member-name>
+			</target>
+		</reference>
+	</references>
+	<tables>
+		<table type="InnoDB" default-charset="utf8" collate="utf8_unicode_ci" auto-increment="1" name="company">
+			<keys>
+				<pk name="company_pk" field="company_id"/>
+				<index name="company_idx_01" field="company_id_fk"/>
+				<fk name="company_fk_01" field="company_id_fk" target-table="company" target-field="company_id" on-delete="null"/>
+			</keys>	
+			<fields>
+				<field name="company_id" type="int" length="10" nullable="false" autoincrement="true"/>
+				<field name="company_id_fk" type="int" length="10" nullable="true"/>
+				<field name="name" type="varchar" length="45" nullable="false"/>
+				<field name="additional_name" type="varchar" length="255" nullable="true"/>
+				<field name="phone" type="varchar" length="45" nullable="true"/>
+				<field name="email" type="varchar" length="100" nullable="true"/>
+				<field name="telefax" type="varchar" length="45" nullable="true"/>
+				<field name="website" type="varchar" length="255" nullable="true"/>
+				<field name="deleted" type="tinyint" length="1" nullable="false" default="0"/>
+				<field name="customer_number" type="varchar" length="25" nullable="true"/>
+			</fields>
+			<initial-data>
+				<rows>
+					<row>
+						<col name="company_id">1</col>
+						<col name="name">TechDivision GmbH</col>
+						<col name="additional_name">Technisch Mediale Visionen</col>
+                        <col name="phone">+49-8031-221055-0</col>
+                        <col name="email">info@techdivision.com</col>
+                        <col name="telefax">+49-8031-221055-22</col>
+                        <col name="website">http://www.techdivision.com</col>
+                        <col name="deleted">0</col>
+                        <col name="customer_number">67890</col>
+					</row>
+				</rows>
+			</initial-data>
+		</table>
+	</tables>
+</entity>

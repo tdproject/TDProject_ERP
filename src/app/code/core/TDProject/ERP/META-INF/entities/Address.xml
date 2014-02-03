@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * TDProject_ERP
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+-->
+<entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://www.techdivision.com/schema/entity-1.0.0.xsd"
+	name="Address" type="entity">
+    <description>This class represents an object oriented way to manipulate data in the database.</description>
+    <members>
+        <member name="addressId" sqlname="address_id" type="Integer" initial="0"/>
+        <member name="countryIdFk" sqlname="country_id_fk" type="Integer" initial="0"/>
+    	<member name="state" sqlname="state" type="String" initial="null"/>
+    	<member name="postcode" sqlname="postcode" type="String" initial="null"/>
+        <member name="city" sqlname="city" type="String" initial="null"/>
+        <member name="street" sqlname="street" type="String" initial="null"/>
+        <member name="number" sqlname="number" type="String" initial="null"/>
+        <member name="postOfficeBox" sqlname="post_office_box" type="String" initial="null"/>
+	</members>
+	<querys>
+		<query>
+			<description><![CDATA[Returns all companies.]]></description>
+			<method name="findAll">
+				<params/>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT address_id FROM address ORDER BY postcode, street ASC]]></sql>
+		</query>
+		<query>
+			<description><![CDATA[Returns the addresses for the passed country ID.]]></description>
+			<method name="findAllByCountryIdFk">
+				<params>
+					<param name="countryIdFk" type="Integer"/>
+				</params>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT address_id FROM address WHERE country_id_fk = ? ORDER BY postcode, street ASC]]></sql>
+		</query>
+	</querys>
+	<references>
+		<reference name="address-has-country">
+			<method-name>Country</method-name>
+			<multiplicity>one</multiplicity>
+			<source>
+				<entity-name>Country</entity-name>
+			</source>
+			<target>
+				<member-name>countryIdFk</member-name>
+			</target>
+		</reference>
+		<reference name="address-has-company-addresses">
+			<method-name>CompanyAddresses</method-name>
+			<multiplicity>many</multiplicity>
+			<source>
+				<entity-name>CompanyAddress</entity-name>
+			</source>
+			<target>
+				<member-name>addressId</member-name>
+			</target>
+		</reference>
+		<reference name="address-has-person-addresses">
+			<method-name>PersonAddresses</method-name>
+			<multiplicity>many</multiplicity>
+			<source>
+				<entity-name>PersonAddress</entity-name>
+			</source>
+			<target>
+				<member-name>addressId</member-name>
+			</target>
+		</reference>
+	</references>
+	<tables>
+		<table type="InnoDB" default-charset="utf8" collate="utf8_unicode_ci" auto-increment="1" name="address">
+			<keys>
+				<pk name="address_pk" field="address_id"/>
+				<index name="address_idx_01" field="country_id_fk"/>
+				<fk name="address_fk_01" field="country_id_fk" target-table="country" target-field="country_id" on-delete="cascade"/>
+			</keys>	
+			<fields>
+				<field name="address_id" type="int" length="10" nullable="false" autoincrement="true"/>
+				<field name="country_id_fk" type="int" length="10" nullable="false"/>
+				<field name="state" type="varchar" length="45" nullable="true"/>
+				<field name="postcode" type="varchar" length="15" nullable="false"/>
+				<field name="city" type="varchar" length="255" nullable="false"/>
+				<field name="street" type="varchar" length="255" nullable="true"/>
+				<field name="number" type="varchar" length="45" nullable="true"/>
+				<field name="post_office_box" type="varchar" length="10" nullable="true"/>
+			</fields>
+		</table>
+	</tables>
+</entity>

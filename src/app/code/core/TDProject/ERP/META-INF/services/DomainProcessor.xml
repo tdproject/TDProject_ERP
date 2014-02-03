@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- 
+/**
+ * TDProject_ERP
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+-->
+<processor xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://www.techdivision.com/schema/session-1.0.0.xsd"
+	name="DomainProcessor" type="session" default-application="erp"
+	deployment-descriptor="TDProject/META-INF/deployment-descriptor.xml">
+	<description>This class represents an object oriented way to manipulate data in the database.</description>
+	<methods>
+		<method name="getPersonViewData" type="abstract">
+			<description><![CDATA[This method returns the person with the ID passed as parameter.]]></description>
+			<params>
+				<param name="personId" type="TechDivision_Lang_Integer" default="null">
+					<description><![CDATA[Holds the ID of the person to load the data for]]></description>
+				</param>
+			</params>
+			<return type="TDProject_ERP_Common_ValueObjects_PersonViewData">
+				<description><![CDATA[Returns a DTO initialized with the data of the requested person.]]></description>
+			</return>
+		</method>
+		<method name="getPersonOverviewData" type="abstract">
+            <description><![CDATA[This method returns all persons.]]></description>
+            <params/>
+            <return type="TechDivision_Collections_ArrayList">
+                <description><![CDATA[Returns a ArrayList with all persons.]]></description>
+            </return>
+        </method>
+		<method name="savePerson" type="abstract">
+			<description><![CDATA[This method saves the passed person.]]></description>
+			<params>
+				<param name="dto" type="TDProject_ERP_Common_ValueObjects_PersonViewData">
+					<description><![CDATA[Holds the DTO with the person data]]></description>
+				</param>
+			</params>
+			<return type="TechDivision_Lang_Integer">
+				<description><![CDATA[Returns the ID of the person.]]></description>
+			</return>
+		</method>
+		<method name="deletePerson" type="abstract">
+            <description><![CDATA[This method deletes the person with the ID passed as parameter.]]></description>
+            <params>
+                <param name="personId" type="TechDivision_Lang_Integer">
+                    <description><![CDATA[Holds the ID of the person to delete]]></description>
+                </param>
+            </params>
+            <return type="void">
+                <description><![CDATA[Returns nothing.]]></description>
+            </return>
+        </method>
+		<method name="getCompanyViewData" type="abstract">
+			<description><![CDATA[This method returns the company with the ID passed as parameter.]]></description>
+			<params>
+				<param name="companyId" type="TechDivision_Lang_Integer" default="null">
+					<description><![CDATA[Holds the ID of the company to load the data for]]></description>
+				</param>
+			</params>
+			<return type="TDProject_ERP_Common_ValueObjects_CompanyViewData">
+				<description><![CDATA[Returns a DTO initialized with the data of the requested company.]]></description>
+			</return>
+		</method>
+		<method name="getCompanyOverviewData" type="abstract">
+            <description><![CDATA[This method returns all companies.]]></description>
+            <params/>
+            <return type="TechDivision_Collections_ArrayList">
+                <description><![CDATA[Returns a ArrayList with all companies.]]></description>
+            </return>
+        </method>
+		<method name="saveCompany" type="abstract">
+			<description><![CDATA[This method saves the passed company.]]></description>
+			<params>
+				<param name="dto" type="TDProject_ERP_Common_ValueObjects_CompanyViewData">
+					<description><![CDATA[Holds the LVO with the company data]]></description>
+				</param>
+			</params>
+			<return type="TechDivision_Lang_Integer">
+				<description><![CDATA[Returns the ID of the company.]]></description>
+			</return>
+		</method>
+		<method name="deleteCompany" type="abstract">
+            <description><![CDATA[This method deletes the company with the ID passed as parameter.]]></description>
+            <params>
+                <param name="companyId" type="TechDivision_Lang_Integer">
+                    <description><![CDATA[Holds the ID of the company to delete]]></description>
+                </param>
+            </params>
+            <return type="void">
+                <description><![CDATA[Returns nothing.]]></description>
+            </return>
+        </method>
+		<method name="getAddressViewData" type="abstract">
+			<description><![CDATA[This method returns the address with the ID passed as parameter.]]></description>
+			<params>
+				<param name="addressId" type="TechDivision_Lang_Integer" default="null">
+					<description><![CDATA[Holds the ID of the address to load the data for]]></description>
+				</param>
+			</params>
+			<return type="TDProject_ERP_Common_ValueObjects_AddressViewData">
+				<description><![CDATA[Returns a DTO initialized with the data of the requested address.]]></description>
+			</return>
+		</method>
+		<method name="saveAddress" type="abstract">
+			<description><![CDATA[This method saves the passed address.]]></description>
+			<params>
+				<param name="lvo" type="TDProject_ERP_Common_ValueObjects_AddressLightValue">
+					<description><![CDATA[Holds the LVO with the address data]]></description>
+				</param>
+			</params>
+			<return type="TechDivision_Lang_Integer">
+				<description><![CDATA[Returns the ID of the address.]]></description>
+			</return>
+		</method>
+		<method name="relatePersonAddress" type="abstract">
+			<description><![CDATA[This method saves the passed person-address relations.]]></description>
+			<params>
+				<param name="lvo" type="TDProject_ERP_Common_ValueObjects_PersonAddressLightValue">
+					<description><![CDATA[The LVO with the person-address relation to save]]></description>
+				</param>
+			</params>
+			<return type="void">
+				<description><![CDATA[Returns nothing.]]></description>
+			</return>
+		</method>
+		<method name="unrelatePersonAddress" type="abstract">
+			<description><![CDATA[This method deletes the passed person-address relations.]]></description>
+			<params>
+				<param name="lvo" type="TDProject_ERP_Common_ValueObjects_PersonAddressLightValue">
+					<description><![CDATA[The LVO with the person-address relation to delete]]></description>
+				</param>
+			</params>
+			<return type="void">
+				<description><![CDATA[Returns nothing.]]></description>
+			</return>
+		</method>
+		<method name="relateCompanyAddress" type="abstract">
+			<description><![CDATA[This method saves the passed company-address relations.]]></description>
+			<params>
+				<param name="lvo" type="TDProject_ERP_Common_ValueObjects_CompanyAddressLightValue">
+					<description><![CDATA[The LVO with the company-address relation to save]]></description>
+				</param>
+			</params>
+			<return type="void">
+				<description><![CDATA[Returns nothing.]]></description>
+			</return>
+		</method>
+		<method name="unrelateCompanyAddress" type="abstract">
+			<description><![CDATA[This method deletes the passed company-address relation.]]></description>
+			<params>
+				<param name="lvo" type="TDProject_ERP_Common_ValueObjects_CompanyAddressLightValue">
+					<description><![CDATA[The LVO with the company-address relation to delete]]></description>
+				</param>
+			</params>
+			<return type="void">
+				<description><![CDATA[Returns nothing.]]></description>
+			</return>
+		</method>
+		<method name="relateCompanyPerson" type="abstract">
+			<description><![CDATA[This method saves the passed company-person relations.]]></description>
+			<params>
+				<param name="lvo" type="TDProject_ERP_Common_ValueObjects_PersonLightValue">
+					<description><![CDATA[The LVO with the company-person relation to save]]></description>
+				</param>
+			</params>
+			<return type="void">
+				<description><![CDATA[Returns nothing.]]></description>
+			</return>
+		</method>
+		<method name="unrelateCompanyPerson" type="abstract">
+			<description><![CDATA[This method deletes the passed company-person relation.]]></description>
+			<params>
+				<param name="lvo" type="TDProject_ERP_Common_ValueObjects_PersonLightValue">
+					<description><![CDATA[The LVO with the company-person relation to delete]]></description>
+				</param>
+			</params>
+			<return type="void">
+				<description><![CDATA[Returns nothing.]]></description>
+			</return>
+		</method>
+		<method name="getNoteOverviewDataByUserId" type="abstract">
+			<description><![CDATA[This method returns the user specific notes for the dashboard.]]></description>
+			<params>
+				<param name="userId" type="TechDivision_Lang_Integer">
+					<description><![CDATA[The ID of the user to load the note overview data for the dashboard]]></description>
+				</param>
+			</params>
+			<return type="TechDivision_Collections_Interfaces_Collection">
+				<description><![CDATA[Returns a Collection with note DTO's initialized for the dashboard.]]></description>
+			</return>
+		</method>
+		<method name="getNoteOverviewData" type="abstract">
+			<description><![CDATA[This method returns all notes.]]></description>
+			<params/>
+			<return type="TechDivision_Collections_Interfaces_Collection">
+				<description><![CDATA[Returns a Collection with all notes.]]></description>
+			</return>
+		</method>
+		<method name="getNoteViewData" type="abstract">
+			<description><![CDATA[This method returns the note with the ID passed as parameter.]]></description>
+			<params>
+				<param name="addressId" type="TechDivision_Lang_Integer" default="null">
+					<description><![CDATA[Holds the ID of the note to load the data for]]></description>
+				</param>
+			</params>
+			<return type="TDProject_ERP_Common_ValueObjects_NoteViewData">
+				<description><![CDATA[Returns a DTO initialized with the data of the requested note.]]></description>
+			</return>
+		</method>
+		<method name="deleteAddress" type="abstract">
+            <description><![CDATA[This method deletes the address with the ID passed as parameter.]]></description>
+            <params>
+                <param name="addressId" type="TechDivision_Lang_Integer">
+                    <description><![CDATA[Holds the ID of the address to delete]]></description>
+                </param>
+            </params>
+            <return type="void">
+                <description><![CDATA[Returns nothing.]]></description>
+            </return>
+        </method>
+		<method name="deleteNote" type="abstract">
+            <description><![CDATA[This method deletes the note with the ID passed as parameter.]]></description>
+            <params>
+                <param name="noteId" type="TechDivision_Lang_Integer">
+                    <description><![CDATA[Holds the ID of the note to delete]]></description>
+                </param>
+            </params>
+            <return type="void">
+                <description><![CDATA[Returns nothing.]]></description>
+            </return>
+        </method>
+		<method name="saveNote" type="abstract">
+			<description><![CDATA[This method saves the passed note.]]></description>
+			<params>
+				<param name="lvo" type="TDProject_ERP_Common_ValueObjects_NoteLightValue">
+					<description><![CDATA[Holds the LVO with the note data]]></description>
+				</param>
+			</params>
+			<return type="TechDivision_Lang_Integer">
+				<description><![CDATA[Returns the ID of the note.]]></description>
+			</return>
+		</method>
+		<method name="relatePersonNote" type="abstract">
+			<description><![CDATA[This method saves the passed person-note relations.]]></description>
+			<params>
+				<param name="lvo" type="TDProject_ERP_Common_ValueObjects_PersonNoteLightValue">
+					<description><![CDATA[The LVO with the person-note relation to save]]></description>
+				</param>
+			</params>
+			<return type="void">
+				<description><![CDATA[Returns nothing.]]></description>
+			</return>
+		</method>
+		<method name="unrelatePersonNote" type="abstract">
+			<description><![CDATA[This method removes the passed person-note relations.]]></description>
+			<params>
+				<param name="lvo" type="TDProject_ERP_Common_ValueObjects_PersonNoteLightValue">
+					<description><![CDATA[The LVO with the person-note relation to save]]></description>
+				</param>
+			</params>
+			<return type="void">
+				<description><![CDATA[Returns nothing.]]></description>
+			</return>
+		</method>
+		<method name="relateCompanyNote" type="abstract">
+			<description><![CDATA[This method saves the passed company-note relations.]]></description>
+			<params>
+				<param name="lvo" type="TDProject_ERP_Common_ValueObjects_CompanyNoteLightValue">
+					<description><![CDATA[The LVO with the company-note relation to save]]></description>
+				</param>
+			</params>
+			<return type="void">
+				<description><![CDATA[Returns nothing.]]></description>
+			</return>
+		</method>
+		<method name="unrelateCompanyNote" type="abstract">
+			<description><![CDATA[This method removes the passed company-note relations.]]></description>
+			<params>
+				<param name="lvo" type="TDProject_ERP_Common_ValueObjects_CompanyNoteLightValue">
+					<description><![CDATA[The LVO with the company-note relation to save]]></description>
+				</param>
+			</params>
+			<return type="void">
+				<description><![CDATA[Returns nothing.]]></description>
+			</return>
+		</method>
+	</methods>
+</processor>

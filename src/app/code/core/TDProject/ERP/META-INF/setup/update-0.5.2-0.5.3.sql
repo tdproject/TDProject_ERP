@@ -1,0 +1,1 @@
+ALTER TABLE `company` ADD `customer_number` VARCHAR(25) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL;
